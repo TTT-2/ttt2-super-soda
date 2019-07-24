@@ -24,10 +24,24 @@ function plymeta:RemoveSoda(soda_name)
     self:SetSoda(soda_name, false)
 end
 
+function plymeta:SodaAmountDrunk()
+    if not self.drankSoda then
+        return 0
+    end
+    
+    local amount = 0
+    for _,drunk_soda in pairs(self.drankSoda) do
+        if drunk_soda then amount = amount + 1 end
+    end
+    return amount
+end
+
 
 if SERVER then
     util.AddNetworkString('ttt2_supersoda_reset')
     util.AddNetworkString('ttt2_supersoda_drink')
+    util.AddNetworkString('ttt2_supersoda_msg_already_drunk')
+    util.AddNetworkString('ttt2_supersoda_msg_limit_reached')
 
     -- RESET PLAYER SODA STATE
     function SUPERSODA:ResetPlayerState(ply)
@@ -49,6 +63,22 @@ if SERVER then
         if ply:GetPos():Distance(ent:GetPos()) >= 60 then return end -- too far away
         if not table.HasValue(SUPERSODA.sodas, soda) then return end -- no valid soda
 
+        -- check if alerady drunk
+        if ply:HasDrunkSoda(soda) then
+            net.Start('ttt2_supersoda_msg_already_drunk')
+            net.Send(ply)
+
+            return -- do not continue
+        end
+
+        -- check if limited
+        if GetGlobalBool('ttt_soda_limit_one_per_player') and ply:SodaAmountDrunk() >= 1 then
+            net.Start('ttt2_supersoda_msg_limit_reached')
+            net.Send(ply)
+
+            return -- do not continue
+        end
+
         -- drink soda and notify
         sound.Play('sodacan/opencan.wav', ply:GetPos(), 60)
         ent:Remove()
@@ -66,21 +96,24 @@ if SERVER then
         SUPERSODA:PickupSoda(ply, ply:GetEyeTrace().Entity)
     end)
 
-    local function SpawnRandomSoda()
-        local spawns = ents.FindByClass('item_*')
+    hook.Add('TTTBeginRound', 'ttt2_supersoda_spawn' , function()
+        -- limit by defined max and found items
+        local amount = math.min(#ents.FindByClass('item_*'), GetGlobalInt('ttt_soda_amount'))
+
+        if amount == 0 then return end
         
-        if (#spawns) > 0 then
+        for i = 1, amount do
+            -- research since one item was replaced
+            local spawns = ents.FindByClass('item_*')
+
+            local spwn = spawns[math.random(#spawns)]
+            local soda = ents.Create(SUPERSODA.sodas[math.random(#SUPERSODA.sodas)])
             
-            local spwn = spawns[ math.random( #spawns ) ]
-            local soda = ents.Create( SUPERSODA.sodas[ math.random( #SUPERSODA.sodas ) ] )
-            
-            soda:SetPos( spwn:GetPos() )
+            soda:SetPos(spwn:GetPos())
             soda:Spawn()
             spwn:Remove()
-
         end
-    end
-    hook.Add('TTTBeginRound', 'SpawnSoda' , SpawnRandomSoda)
+    end)
 end
 
 if CLIENT then
@@ -100,6 +133,13 @@ if CLIENT then
 
         client:DrinkSoda(soda)
         MSTACK:AddMessage(LANG.GetTranslation('ttt_drank_' .. soda))
+    end)
+
+    net.Receive('ttt2_supersoda_msg_already_drunk', function()
+        MSTACK:AddMessage(LANG.GetTranslation('ttt_drank_soda_already_drunk'))
+    end)
+    net.Receive('ttt2_supersoda_msg_limit_reached', function()
+        MSTACK:AddMessage(LANG.GetTranslation('ttt_drank_soda_limit_reached'))
     end)
 end
 
