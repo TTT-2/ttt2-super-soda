@@ -1,11 +1,11 @@
-CreateConVar('ttt_soda_amount', 3, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Set the amount of sodas that spawn each round.')
+CreateConVar('ttt_soda_spawn_amount', 3, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Set the amount of sodas that spawn each round.')
 CreateConVar('ttt_soda_limit_one_per_player', 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Limit the soda usage to one per player.')
 CreateConVar('ttt_soda_speedup', 1.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Set the speed you can get after drinking the SpeedUp! soda. (1.5 = 150%, 1.75 = 175% etc.)')
 CreateConVar('ttt_soda_shieldup', 0.70, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much damage do you get after drinking the ShieldUp! soda (0.80 = 80%, 0.60 = 60% etc.)')
 CreateConVar('ttt_soda_ragedup', 1.30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much damage do you deal after drinking the RageUp! soda (1.20 = 120%, 1.40 = 140% etc.)')
 
 hook.Add('TTTUlxInitCustomCVar', 'TTTSuperSodaInitRWCVar', function(name)
-    ULib.replicatedWritableCvar('ttt_soda_amount', 'rep_ttt_soda_amount', GetConVar('ttt_soda_amount'):GetInt(), true, false, name)
+    ULib.replicatedWritableCvar('ttt_soda_spawn_amount', 'rep_ttt_soda_spawn_amount', GetConVar('ttt_soda_spawn_amount'):GetInt(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_limit_one_per_player', 'rep_ttt_soda_limit_one_per_player', GetConVar('ttt_soda_limit_one_per_player'):GetBool(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_speedup', 'rep_ttt_soda_speedup', GetConVar('ttt_soda_speedup'):GetFloat(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_shieldup', 'rep_ttt_soda_shieldup', GetConVar('ttt_soda_shieldup'):GetFloat(), true, false, name)
@@ -16,7 +16,7 @@ if SERVER then
     -- ConVar replication is broken in GMod, so we do this, at least Alf added a hook!
     -- I don't like it any more than you do, dear reader. Copycat!
     hook.Add('TTT2SyncGlobals', 'ttt2_supersoda_sync_convars', function()
-        SetGlobalFloat('ttt_soda_amount', GetConVar('ttt_soda_amount'):GetInt())
+        SetGlobalFloat('ttt_soda_spawn_amount', GetConVar('ttt_soda_spawn_amount'):GetInt())
         SetGlobalBool('ttt_soda_limit_one_per_player', GetConVar('ttt_soda_limit_one_per_player'):GetBool())
         SetGlobalFloat('ttt_soda_speedup', GetConVar('ttt_soda_speedup'):GetFloat())
         SetGlobalFloat('ttt_soda_shieldup', GetConVar('ttt_soda_shieldup'):GetFloat())
@@ -24,8 +24,8 @@ if SERVER then
     end)
 
     -- sync convars on change
-    cvars.AddChangeCallback('ttt_soda_amount', function(cv, old, new)
-        SetGlobalInt('ttt_soda_amount', tonumber(new))
+    cvars.AddChangeCallback('ttt_soda_spawn_amount', function(cv, old, new)
+        SetGlobalInt('ttt_soda_spawn_amount', tonumber(new))
     end)
     cvars.AddChangeCallback('ttt_soda_limit_one_per_player', function(cv, old, new)
         SetGlobalBool('ttt_soda_limit_one_per_player', tobool(tonumber(new)))
@@ -56,7 +56,7 @@ if CLIENT then
         tttrslst1:SetSize(390, 50)
         tttrslst1:SetSpacing(5)
 
-        local tttrsdh1 = xlib.makeslider{label = 'ttt_soda_amount (Def. 3)', repconvar = 'rep_ttt_soda_amount', min = 0, max = 25, decimal = 0, parent = tttrslst1}
+        local tttrsdh1 = xlib.makeslider{label = 'ttt_soda_spawn_amount (Def. 3)', repconvar = 'rep_ttt_soda_spawn_amount', min = 0, max = 25, decimal = 0, parent = tttrslst1}
         tttrslst1:AddItem(tttrsdh1)
 
         local tttrsdh2 = xlib.makecheckbox{label = 'ttt_soda_limit_one_per_player (Def. 0)', repconvar = 'rep_ttt_soda_limit_one_per_player', parent = tttrslst1}

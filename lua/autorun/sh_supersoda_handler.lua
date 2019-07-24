@@ -98,7 +98,7 @@ if SERVER then
 
     hook.Add('TTTBeginRound', 'ttt2_supersoda_spawn' , function()
         -- limit by defined max and found items
-        local amount = math.min(#ents.FindByClass('item_*'), GetGlobalInt('ttt_soda_amount'))
+        local amount = math.min(#ents.FindByClass('item_*'), GetGlobalInt('ttt_soda_spawn_amount'))
 
         if amount == 0 then return end
         
