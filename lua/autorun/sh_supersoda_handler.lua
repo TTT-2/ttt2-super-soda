@@ -1,128 +1,108 @@
-local sodatbl = { "soda_yellow", "soda_red", "soda_blue" }
+SUPERSODA = {}
+SUPERSODA.sodas = {'soda_speedup', 'soda_ragedup', 'soda_shieldup'}
+
+-- add functions to player object, SHARED
+local plymeta = FindMetaTable('Player')
+function plymeta:HasDrunkSoda(soda_name)
+    if not self.drankSoda then return false end
+
+    return self.drankSoda[soda_name] or false
+end
+
+function plymeta:SetSoda(soda_name, soda_state)
+    if not self.drankSoda then
+        self.drankSoda = {}
+    end
+    self.drankSoda[soda_name] = soda_state
+end
+
+function plymeta:DrinkSoda(soda_name)
+    self:SetSoda(soda_name, true)
+end
+
+function plymeta:RemoveSoda(soda_name)
+    self:SetSoda(soda_name, false)
+end
+
 
 if SERVER then
-	resource.AddFile("materials/vgui/ttt/hud_icon_soda_yellow.png");
-	resource.AddFile("materials/vgui/ttt/hud_icon_soda_blue.png");
-	resource.AddFile("materials/vgui/ttt/hud_icon_soda_red.png");
-	resource.AddFile("sound/sodacan/opencan.wav");
+    util.AddNetworkString('ttt2_supersoda_reset')
+    util.AddNetworkString('ttt2_supersoda_drink')
+
+    -- RESET PLAYER SODA STATE
+    function SUPERSODA:ResetPlayerState(ply)
+        for _,soda in ipairs(self.sodas) do
+            ply:RemoveSoda(soda)
+        end
+
+        net.Start('ttt2_supersoda_reset')
+        net.Send(ply)
+    end
+    hook.Add('PlayerSpawn', 'ttt2_supersoda_reset_hook', function(ply)
+        SUPERSODA:ResetPlayerState(ply)
+    end)
+
+    -- HANDLE SODA PICKUP
+    function SUPERSODA:PickupSoda(ply, ent)
+        local soda = ent:GetClass()
+
+        if ply:GetPos():Distance(ent:GetPos()) >= 60 then return end -- too far away
+        if not table.HasValue(SUPERSODA.sodas, soda) then return end -- no valid soda
+
+        -- drink soda and notify
+        sound.Play('sodacan/opencan.wav', ply:GetPos(), 60)
+        ent:Remove()
+        STATUS:AddStatus(ply, soda)
+
+        -- set drank soda on client
+        ply:DrinkSoda(soda)
+        net.Start('ttt2_supersoda_drink')
+        net.WriteString(soda)
+        net.Send(ply)
+    end
+    hook.Add('KeyPress', 'ttt2_supersoda_pickup', function(ply, key)
+        if key ~= IN_USE then return end
+
+        SUPERSODA:PickupSoda(ply, ply:GetEyeTrace().Entity)
+    end)
+
+    local function SpawnRandomSoda()
+        local spawns = ents.FindByClass('item_*')
+        
+        if (#spawns) > 0 then
+            
+            local spwn = spawns[ math.random( #spawns ) ]
+            local soda = ents.Create( SUPERSODA.sodas[ math.random( #SUPERSODA.sodas ) ] )
+            
+            soda:SetPos( spwn:GetPos() )
+            soda:Spawn()
+            spwn:Remove()
+
+        end
+    end
+    hook.Add('TTTBeginRound', 'SpawnSoda' , SpawnRandomSoda)
 end
 
 if CLIENT then
-	hook.Add("Initialize", "supersoda_init_icon", function()
-		STATUS:RegisterStatus("supersoda_yellow", {
-			hud = Material("vgui/ttt/hud_icon_soda_yellow.png"),
-			type = "good",
-			DrawInfo = function() return tostring(math.Round(GetGlobalFloat("ttt_soda_speedup"), 2)*100) end
-		})
-		STATUS:RegisterStatus("supersoda_blue", {
-			hud = Material("vgui/ttt/hud_icon_soda_blue.png"),
-			type = "good",
-			DrawInfo = function() return tostring(math.Round(GetGlobalFloat("ttt_soda_shieldup"), 2)*100) end
-		})
-		STATUS:RegisterStatus("supersoda_red", {
-			hud = Material("vgui/ttt/hud_icon_soda_red.png"),
-			type = "good",
-			DrawInfo = function() return tostring(math.Round(GetGlobalFloat("ttt_soda_ragedup"), 2)*100) end
-		})
-	end)
+    net.Receive('ttt2_supersoda_reset', function()
+        local client = LocalPlayer()
+
+        if not client or not IsValid(client) then return end
+
+        for _,soda in ipairs(SUPERSODA.sodas) do
+            client:RemoveSoda(soda)
+        end
+    end)
+
+    net.Receive('ttt2_supersoda_drink', function()
+        local client = LocalPlayer()
+        local soda = net.ReadString()
+
+        client:DrinkSoda(soda)
+        MSTACK:AddMessage(LANG.GetTranslation('ttt_drank_' .. soda))
+    end)
 end
 
-hook.Add("PostPlayerDeath", "resetstats", function(ply)
-	ply.DrankYellow = false
-	ply.DrankRed = false
-	ply.DrankBlue = false
+concommand.Add('debug_sodaversion', function()
+    print('TTT2 - V. 1.0.0')
 end)
-
-hook.Add("PlayerSpawn", "resetstats", function(ply)
-	ply.DrankYellow = false
-	ply.DrankRed = false
-	ply.DrankBlue = false
-end)
-
-hook.Add("TTTPlayerSpeedModifier", "SuperSpeed" , function(ply)
-	if ply.DrankYellow then
-		return GetConVar("ttt_soda_speedup"):GetFloat()
-	end
-end)
-
-hook.Add("EntityTakeDamage", "DecreaseDamage", function(target, dmginfo) 
-	if target.DrankBlue then
-		dmginfo:SetDamage(dmginfo:GetDamage() * GetConVar("ttt_soda_shieldup"):GetFloat())
-	end
-end)
-
-hook.Add("EntityTakeDamage", "IncreaseDamage", function(target, dmginfo) 
-	if dmginfo:GetAttacker().DrankRed then
-		dmginfo:SetDamage(dmginfo:GetDamage() * GetConVar("ttt_soda_ragedup"):GetFloat())
-	end
-end)
-
-if SERVER then
-	local function SpawnRandomSoda()
-		local spawns = ents.FindByClass("item_*")
-		
-		if (#spawns) > 0 then
-			
-			local spwn = spawns[ math.random( #spawns ) ]
-			local soda = ents.Create( sodatbl[ math.random( #sodatbl ) ] )
-			
-			soda:SetPos( spwn:GetPos() )
-			soda:Spawn()
-			spwn:Remove()
-
-		end
-	end
-	hook.Add("TTTBeginRound", "SpawnSoda" , SpawnRandomSoda)
-
-end
-
-hook.Add( "KeyPress", "UseMe", function(ply, key)
-	local ent = ply:GetEyeTrace().Entity
-
-	if ( key == IN_USE ) then
-		
-		if table.HasValue( sodatbl, ent:GetClass() ) then
-		
-		local dist = ply:GetPos():Distance( ent:GetPos() )
-			if dist < 50 then
-				UseFix( ent, ply )	
-			end
-		end
-	end
-end)
-
-function UseFix( ent, ply )
-	if ent:GetClass() == "soda_blue" then
-
-		ply.DrankBlue = true
-		sound.Play( "sodacan/opencan.wav", ply:GetPos(), 60 )
-		ent:Remove()
-		ply:ChatPrint( 'You found the ShieldUp! soda! Get less damage!' )
-		STATUS:AddStatus()
-
-		if SERVER then STATUS:AddStatus(ply, 'supersoda_blue') end
-	
-	elseif ent:GetClass() == "soda_red" then
-
-		ply.DrankRed = true
-		sound.Play( "sodacan/opencan.wav", ply:GetPos(), 60 )
-		ent:Remove()
-		ply:ChatPrint( 'You found the RageUp! soda! Deal more damage!' )
-
-		if SERVER then STATUS:AddStatus(ply, 'supersoda_red') end
-	
-	elseif ent:GetClass() == "soda_yellow" then
-
-		ply.DrankYellow = true
-		sound.Play( "sodacan/opencan.wav", ply:GetPos(), 60 )
-		ent:Remove()
-		ply:ChatPrint( 'You found the SpeedUp! soda! Move faster!' )
-
-		if SERVER then STATUS:AddStatus(ply, 'supersoda_yellow') end
-	end
-end
-
-function VersionCheck()
-	print( "TTT2 - V. 1.0.0" )
-end
-concommand.Add( "debug_sodaversion", VersionCheck )

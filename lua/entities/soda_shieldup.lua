@@ -23,9 +23,9 @@ function ENT:Initialize()
 	if ( IsValid( phys ) ) then phys:Wake() end
 end
 
-function ENT:Use( activator )
-	activator.DrankBlue = true
-	sound.Play( "sodacan/opencan.wav", activator:GetPos(), 60 )
-	self:Remove()
-	activator:ChatPrint( 'You found the ShieldUp!™ can! Get less damage!' )
-end
+hook.Add('EntityTakeDamage', 'ttt2_supersoda_shieldup', function(target, dmginfo)
+    if not IsValid(target) or not target:IsPlayer() then return end
+    if not target:HasDrunkSoda('soda_shieldup') then return end
+
+    dmginfo:SetDamage(dmginfo:GetDamage() * GetGlobalFloat('ttt_soda_shieldup'))
+end)

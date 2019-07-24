@@ -23,9 +23,9 @@ function ENT:Initialize()
 	if ( IsValid( phys ) ) then phys:Wake() end
 end
 
-function ENT:Use( activator )
-	activator.DrankYellow = true
-	sound.Play( "sodacan/opencan.wav", activator:GetPos(), 60 )
-	self:Remove()
-	activator:ChatPrint( 'You found the SpeedUp!™ can! Move faster!' )
-end
+hook.Add('TTTPlayerSpeedModifier', 'ttt2_supersoda_speedup' , function(ply, _, _, noLag)
+    if not IsValid(ply) or not ply:IsPlayer() then return end
+    if not ply:HasDrunkSoda('soda_speedup') then return end
+
+    noLag[1] = noLag[1] * GetGlobalFloat('ttt_soda_speedup')
+end)

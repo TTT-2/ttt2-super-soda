@@ -23,9 +23,12 @@ function ENT:Initialize()
 	if ( IsValid( phys ) ) then phys:Wake() end
 end
 
-function ENT:Use( activator )
-	activator.DrankRed = true
-	sound.Play( "sodacan/opencan.wav", activator:GetPos(), 60 )
-	self:Remove()
-	activator:ChatPrint( 'You found the RageUp!™ can! Deal more damage!' )
-end
+hook.Add('EntityTakeDamage', 'ttt2_supersoda_ragedup', function(target, dmginfo)
+    local attacker = dmginfo:GetAttacker()
+
+    if not IsValid(target) or not target:IsPlayer() then return end
+    if not IsValid(attacker) or not attacker:IsPlayer() then return end
+    if not attacker:HasDrunkSoda('soda_ragedup') then return end
+
+    dmginfo:SetDamage(dmginfo:GetDamage() * GetGlobalFloat('ttt_soda_ragedup'))
+end)
