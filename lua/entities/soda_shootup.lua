@@ -20,7 +20,7 @@ end
 
 function ENT:Initialize()
     self:SetModel('models/props_junk/PopCan01a.mdl')
-    self:SetSubMaterial(0, 'props_junk_green')
+    self:SetMaterial("models/props_junk/popcan06a", true)
 
     self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
