@@ -1,5 +1,5 @@
 SUPERSODA = {}
-SUPERSODA.sodas = {'soda_speedup', 'soda_ragedup', 'soda_shieldup'}
+SUPERSODA.sodas = {'soda_speedup', 'soda_ragedup', 'soda_shieldup', 'soda_shootup'}
 
 -- add functions to player object, SHARED
 local plymeta = FindMetaTable('Player')

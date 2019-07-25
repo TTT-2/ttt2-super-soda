@@ -6,5 +6,6 @@ if CLIENT then
         LANG.AddToLanguage('English', 'ttt_drank_soda_speedup', 'You found the SpeedUp!™ can! Move faster!')
         LANG.AddToLanguage('English', 'ttt_drank_soda_ragedup', 'You found the RageUp!™ can! Deal more damage!')
         LANG.AddToLanguage('English', 'ttt_drank_soda_shieldup', 'You found the ShieldUp!™ can! Get less damage!')
+        LANG.AddToLanguage('English', 'ttt_drank_soda_shootup', 'You found the ShootUp!™ can! Shoot Faster!')
     end)
 end
