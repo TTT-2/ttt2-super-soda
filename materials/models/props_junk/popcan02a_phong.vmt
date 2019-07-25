@@ -1,0 +1,20 @@
+
+"VertexLitGeneric"
+{
+   "$basetexture" "models/props_junk/popcan02a"
+   "$phong" "1" 
+   "$phongboost" "20" 
+   "$phongfresnelranges" "[0 0.5 1]" 
+ 
+   "$phongcolortint" "[.1 .1 .1]" 
+        
+   "$basemapalphaphongmask" "1"
+ 
+   "$color2" "[3 3 3]" 
+   "$blendtintbybasealpha" "1" 
+   "$blendTintColorOverBase"  "0" 
+     
+   "$phongalbedotint" "1" 
+   "$phongdisablehalflambert" "1" 
+}
+
