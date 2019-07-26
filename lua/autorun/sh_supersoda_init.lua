@@ -4,6 +4,13 @@ if SERVER then
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_ragedup.png');
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_shootup.png');
     resource.AddFile('sound/sodacan/opencan.wav');
+
+    resource.AddFile('materials/models/props_junk/popcan01a_phong');
+    resource.AddFile('materials/models/props_junk/popcan02a_phong');
+    resource.AddFile('materials/models/props_junk/popcan03a_phong');
+    resource.AddFile('materials/models/props_junk/popcan04a');
+    resource.AddFile('materials/models/props_junk/popcan05a');
+    resource.AddFile('materials/models/props_junk/popcan06a');
 end
 
 if CLIENT then
