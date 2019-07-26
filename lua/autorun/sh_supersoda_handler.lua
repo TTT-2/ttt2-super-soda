@@ -42,6 +42,7 @@ if SERVER then
     util.AddNetworkString('ttt2_supersoda_drink')
     util.AddNetworkString('ttt2_supersoda_msg_already_drunk')
     util.AddNetworkString('ttt2_supersoda_msg_limit_reached')
+    util.AddNetworkString('ttt2_supersoda_msg_spawned')
 
     -- RESET PLAYER SODA STATE
     function SUPERSODA:ResetPlayerState(ply)
@@ -113,6 +114,13 @@ if SERVER then
             soda:Spawn()
             spwn:Remove()
         end
+
+        -- send message about spawned bottles
+        if amount == 0 then return end
+
+        net.Start('ttt2_supersoda_msg_spawned')
+        net.WriteUInt(amount, 16)
+        net.Send(player.GetAll())
     end)
 end
 
@@ -140,6 +148,11 @@ if CLIENT then
     end)
     net.Receive('ttt2_supersoda_msg_limit_reached', function()
         MSTACK:AddMessage(LANG.GetTranslation('ttt_drank_soda_limit_reached'))
+    end)
+    net.Receive('ttt2_supersoda_msg_spawned', function()
+        -- store in variable since it sets the text to red otherwise
+        local text = LANG.GetParamTranslation('ttt_spawned_soda', {amount = net.ReadUInt(16)})
+        MSTACK:AddMessage(text)
     end)
 end
 
