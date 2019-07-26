@@ -8,9 +8,9 @@ if SERVER then
     resource.AddFile('materials/models/props_junk/popcan01a_phong');
     resource.AddFile('materials/models/props_junk/popcan02a_phong');
     resource.AddFile('materials/models/props_junk/popcan03a_phong');
-    resource.AddFile('materials/models/props_junk/popcan04a');
-    resource.AddFile('materials/models/props_junk/popcan05a');
-    resource.AddFile('materials/models/props_junk/popcan06a');
+    resource.AddFile('materials/models/props_junk/popcan04a_phong');
+    resource.AddFile('materials/models/props_junk/popcan05a_phong');
+    resource.AddFile('materials/models/props_junk/popcan06a_phong');
 end
 
 if CLIENT then
