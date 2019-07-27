@@ -1,5 +1,5 @@
 SUPERSODA = {}
-SUPERSODA.sodas = {'soda_speedup', 'soda_ragedup', 'soda_shieldup', 'soda_shootup'}
+SUPERSODA.sodas = {'soda_speedup', 'soda_rageup', 'soda_shieldup', 'soda_shootup'}
 
 -- add functions to player object, SHARED
 local plymeta = FindMetaTable('Player')
@@ -109,7 +109,7 @@ if SERVER then
 
             local spwn = spawns[math.random(#spawns)]
             local soda = ents.Create(SUPERSODA.sodas[math.random(#SUPERSODA.sodas)])
-            
+
             soda:SetPos(spwn:GetPos())
             soda:Spawn()
             spwn:Remove()

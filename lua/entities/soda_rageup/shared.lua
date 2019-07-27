@@ -6,7 +6,7 @@ ENT.Spawnable = true
 util.PrecacheSound('sound/sodacan/opencan.wav')
 
 if CLIENT then
-	language.Add('soda_ragedup', 'RageUp!™')
+	language.Add('soda_rageup', 'RageUp!™')
 end
 
 function ENT:Initialize()
@@ -22,12 +22,12 @@ function ENT:Initialize()
     if IsValid(phys) then phys:Wake() end
 end
 
-hook.Add('EntityTakeDamage', 'ttt2_supersoda_ragedup', function(target, dmginfo)
+hook.Add('EntityTakeDamage', 'ttt2_supersoda_rageup', function(target, dmginfo)
     local attacker = dmginfo:GetAttacker()
 
     if not IsValid(target) or not target:IsPlayer() then return end
     if not IsValid(attacker) or not attacker:IsPlayer() then return end
-    if not attacker:HasDrunkSoda('soda_ragedup') then return end
+    if not attacker:HasDrunkSoda('soda_rageup') then return end
 
-    dmginfo:SetDamage(dmginfo:GetDamage() * GetGlobalFloat('ttt_soda_ragedup'))
+    dmginfo:SetDamage(dmginfo:GetDamage() * GetGlobalFloat('ttt_soda_rageup'))
 end)

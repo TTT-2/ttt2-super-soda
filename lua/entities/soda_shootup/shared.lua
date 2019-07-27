@@ -8,13 +8,10 @@ util.PrecacheSound('sound/sodacan/opencan.wav')
 if CLIENT then
     language.Add('soda_shootup', 'ShootUp!™')
 end
-if SERVER then
-    resource.AddFile('materials/models/props_junk/popcan04a')
-end
 
 function ENT:Initialize()
     self:SetModel('models/props_junk/PopCan01a.mdl')
-    self:SetMaterial('models/props_junk/popcan04a', true)
+    self:SetMaterial('models/props_junk/popcan04a_phong', true)
 
     self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
@@ -31,19 +28,19 @@ if SERVER then
     util.AddNetworkString('ttt2_supersoda_shootup_speedupdate')
 
     local function DisableWeaponSpeed(wep)
-        if IsValid(wep) and wep.OldOnDrop then
-            wep.Primary.Delay = wep.OldDelay
-            wep.OnDrop = wep.OldOnDrop
+        if IsValid(wep) and wep.OnDrop_old then
+            wep.Primary.Delay = wep.Delay_old
+            wep.OnDrop = wep.OnDrop_old
 
             net.Start('ttt2_supersoda_shootup_speedupdate')
             net.WriteBool(false)
             net.WriteEntity(wep)
             net.WriteFloat(wep.Primary.Delay)
-            net.WriteFloat(wep.OldDelay)
+            net.WriteFloat(wep.Delay_old)
             net.Send(wep.Owner)
 
-            wep.OldOnDrop = nil
-            wep.OldDelay = nil
+            wep.OnDrop_old = nil
+            wep.Delay_old = nil
         end
     end
 
@@ -51,16 +48,16 @@ if SERVER then
         if (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) then
             local delay = math.Round(wep.Primary.Delay / GetGlobalFloat('ttt_soda_shootup'), 3)
 
-            wep.OldDelay = wep.Primary.Delay
+            wep.Delay_old = wep.Primary.Delay
             wep.Primary.Delay = delay
-            wep.OldOnDrop = wep.OnDrop
+            wep.OnDrop_old = wep.OnDrop
 
             wep.OnDrop = function(self, ...)
                 if IsValid(self) then
-                    if self.OldOnDrop then
+                    if self.OnDrop_old then
                         DisableWeaponSpeed(self)
 
-                        self.OldOnDrop = nil
+                        self.OnDrop_old = nil
                     end
 
                     self:OnDrop()
@@ -71,7 +68,7 @@ if SERVER then
             net.WriteBool(true)
             net.WriteEntity(wep)
             net.WriteFloat(wep.Primary.Delay)
-            net.WriteFloat(wep.OldDelay)
+            net.WriteFloat(wep.Delay_old)
             net.Send(wep.Owner)
         end
     end
@@ -98,18 +95,18 @@ if CLIENT then
         wep.Primary.Delay = net.ReadFloat()
 
         if apply then
-            wep.OldOnDrop = wep.OnDrop
+            wep.OnDrop_old = wep.OnDrop
 
             wep.OnDrop = function(self, ...)
                 if IsValid(self) then
                     self.Primary.Delay = net.ReadFloat()
-                    self.OnDrop = self.OldOnDrop
+                    self.OnDrop = self.OnDrop_old
 
                     self:OnDrop()
                 end
             end
         else
-            wep.OnDrop = wep.OldOnDrop
+            wep.OnDrop = wep.OnDrop_old
         end
     end)
 end

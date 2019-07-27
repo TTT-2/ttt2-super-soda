@@ -1,4 +1,7 @@
 if SERVER then
+    -- make sure the addon is synced to the client (this is somehow needed for the entities, don't ask me why)
+    resource.AddWorkshop('1815518231')
+
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_speedup.png');
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_shieldup.png');
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_ragedup.png');
@@ -23,8 +26,8 @@ if CLIENT then
             hud = Material('vgui/ttt/hud_icon_soda_shieldup.png'),
             type = 'good'
         })
-        STATUS:RegisterStatus('soda_ragedup', {
-            hud = Material('vgui/ttt/hud_icon_soda_ragedup.png'),
+        STATUS:RegisterStatus('soda_rageup', {
+            hud = Material('vgui/ttt/hud_icon_soda_rageup.png'),
             type = 'good'
         })
         STATUS:RegisterStatus('soda_shootup', {
