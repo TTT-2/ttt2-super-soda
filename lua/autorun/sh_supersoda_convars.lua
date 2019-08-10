@@ -48,7 +48,7 @@ if SERVER then
 end
 
 if CLIENT then
-    hook.Add('TTTUlxModifySettings', 'TTTSupersodaModifySettings', function(name)
+    hook.Add('TTTUlxModifyAddonSettings', 'TTTSupersodaModifySettings', function(name)
         local tttrspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
         -- Basic Settings 
