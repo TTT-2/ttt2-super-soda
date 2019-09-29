@@ -82,7 +82,7 @@ if CLIENT then
 
         -- Multipliers 
         local tttrsclp2 = vgui.Create('DCollapsibleCategory', tttrspnl)
-        tttrsclp2:SetSize(390, 100)
+        tttrsclp2:SetSize(390, 75)
         tttrsclp2:SetExpanded(1)
         tttrsclp2:SetLabel('Mulipliers')
 
@@ -102,7 +102,7 @@ if CLIENT then
 
         -- Instant Effects
         local tttrsclp3 = vgui.Create('DCollapsibleCategory', tttrspnl)
-        tttrsclp3:SetSize(390, 50)
+        tttrsclp3:SetSize(390, 75)
         tttrsclp3:SetExpanded(1)
         tttrsclp3:SetLabel('Instant Effects')
 
