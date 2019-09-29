@@ -3,6 +3,8 @@ AddCSLuaFile()
 ENT.Base      = 'base_anim'
 ENT.Spawnable = true
 
+ENT.soda_type = 'SINGLEUSE'
+
 util.PrecacheSound('sound/sodacan/opencan.wav')
 
 if CLIENT then
@@ -11,10 +13,10 @@ end
 
 function ENT:Initialize()
     self:SetModel('models/props_junk/PopCan01a.mdl')
-    self:SetMaterial('models/props_junk/popcan04a_phong', true)
+    self:SetMaterial('models/props_junk/can_shootup', true)
 
-    self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
+    self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
     if SERVER then self:PhysicsInit(SOLID_VPHYSICS) end
 

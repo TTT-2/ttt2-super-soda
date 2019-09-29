@@ -1,5 +1,5 @@
 SUPERSODA = {}
-SUPERSODA.sodas = {'soda_speedup', 'soda_rageup', 'soda_shieldup', 'soda_shootup'}
+SUPERSODA.sodas = {'soda_speedup', 'soda_rageup', 'soda_shootup', 'soda_shieldup', 'soda_healup'}
 
 -- add functions to player object, SHARED
 local plymeta = FindMetaTable('Player')
@@ -61,11 +61,11 @@ if SERVER then
     function SUPERSODA:PickupSoda(ply, ent)
         local soda = ent:GetClass()
 
-        if ply:GetPos():Distance(ent:GetPos()) >= 60 then return end -- too far away
+        if ply:GetPos():Distance(ent:GetPos()) >= 75 then return end -- too far away
         if not table.HasValue(SUPERSODA.sodas, soda) then return end -- no valid soda
 
         -- check if alerady drunk
-        if ply:HasDrunkSoda(soda) then
+        if ent.soda_type == "SINGLEUSE" and ply:HasDrunkSoda(soda) then
             net.Start('ttt2_supersoda_msg_already_drunk')
             net.Send(ply)
 
@@ -78,6 +78,11 @@ if SERVER then
             net.Send(ply)
 
             return -- do not continue
+        end
+
+        -- handle single call sodas
+        if ent.ConsumeSoda then
+            ent:ConsumeSoda(ply)
         end
 
         -- drink soda and notify
@@ -99,7 +104,7 @@ if SERVER then
 
     hook.Add('TTTBeginRound', 'ttt2_supersoda_spawn' , function()
         -- limit by defined max and found items
-        local amount = math.min(#ents.FindByClass('item_*'), GetGlobalInt('ttt_soda_spawn_amount'))
+        local amount = math.min(#ents.FindByClass('item_*'), GetGlobalInt('ttt_soda_total_spawn_amount'))
 
         if amount == 0 then return end
         

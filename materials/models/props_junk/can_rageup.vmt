@@ -1,7 +1,7 @@
 
 "VertexLitGeneric"
 {
-   "$basetexture" "models/props_junk/popcan04a_phong"
+   "$basetexture" "models/props_junk/can_rageup"
    "$phong" "1" 
    "$phongboost" "20" 
    "$phongfresnelranges" "[0 0.5 1]" 
