@@ -5,12 +5,15 @@ if SERVER then
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_speedup.png');
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_ragedup.png');
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_shootup.png');
+    resource.AddFile('materials/vgui/ttt/hud_icon_soda_jumpup.png');
 
     resource.AddFile('materials/models/props_junk/can_healup');
     resource.AddFile('materials/models/props_junk/can_shieldup');
+    resource.AddFile('materials/models/props_junk/can_creditup');
     resource.AddFile('materials/models/props_junk/can_shootup');
     resource.AddFile('materials/models/props_junk/can_speedup');
     resource.AddFile('materials/models/props_junk/can_rageup');
+    resource.AddFile('materials/models/props_junk/can_jumpup');
 
     resource.AddFile('sound/sodacan/opencan.wav');
 end
@@ -27,6 +30,10 @@ if CLIENT then
         })
         STATUS:RegisterStatus('soda_shootup', {
             hud = Material('vgui/ttt/hud_icon_soda_shootup.png'),
+            type = 'good'
+        })
+        STATUS:RegisterStatus('soda_jumpup', {
+            hud = Material('vgui/ttt/hud_icon_soda_jumpup.png'),
             type = 'good'
         })
     end)

@@ -5,6 +5,7 @@ CreateConVar('ttt_soda_rageup', 1.30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much d
 CreateConVar('ttt_soda_shootup', 1.50, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much much shorter the delay is after ShootUp! soda (1.20 = 120%, 1.40 = 140% etc.)')
 CreateConVar('ttt_soda_shieldup', 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much extra armor points you receive.')
 CreateConVar('ttt_soda_healup', 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much extra armor points you receive.')
+CreateConVar('ttt_soda_creditup', 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much extra equipment credits you receive.')
 
 hook.Add('TTTUlxInitCustomCVar', 'TTTSuperSodaInitRWCVar', function(name)
     ULib.replicatedWritableCvar('ttt_soda_total_spawn_amount', 'rep_ttt_soda_total_spawn_amount', GetConVar('ttt_soda_total_spawn_amount'):GetInt(), true, false, name)
@@ -14,6 +15,7 @@ hook.Add('TTTUlxInitCustomCVar', 'TTTSuperSodaInitRWCVar', function(name)
     ULib.replicatedWritableCvar('ttt_soda_shootup', 'rep_ttt_soda_shootup', GetConVar('ttt_soda_shootup'):GetFloat(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_shieldup', 'rep_ttt_soda_shieldup', GetConVar('ttt_soda_shieldup'):GetInt(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_healup', 'rep_ttt_soda_healup', GetConVar('ttt_soda_healup'):GetInt(), true, false, name)
+    ULib.replicatedWritableCvar('ttt_soda_creditup', 'rep_ttt_soda_creditup', GetConVar('ttt_soda_creditup'):GetInt(), true, false, name)
 end)
 
 if SERVER then
@@ -27,6 +29,7 @@ if SERVER then
         SetGlobalFloat('ttt_soda_shootup', GetConVar('ttt_soda_shootup'):GetFloat())
         SetGlobalFloat('ttt_soda_shieldup', GetConVar('ttt_soda_shieldup'):GetInt())
         SetGlobalFloat('ttt_soda_healup', GetConVar('ttt_soda_healup'):GetInt())
+        SetGlobalFloat('ttt_soda_creditup', GetConVar('ttt_soda_creditup'):GetInt())
     end)
 
     -- sync convars on change
@@ -50,6 +53,9 @@ if SERVER then
     end)
     cvars.AddChangeCallback('ttt_soda_healup', function(cv, old, new)
         SetGlobalFloat('ttt_soda_healup', tonumber(new))
+    end)
+    cvars.AddChangeCallback('ttt_soda_creditup', function(cv, old, new)
+        SetGlobalFloat('ttt_soda_creditup', tonumber(new))
     end)
 end
 
@@ -102,7 +108,7 @@ if CLIENT then
 
         local tttrslst3 = vgui.Create('DPanelList', tttrsclp3)
         tttrslst3:SetPos(5, 25)
-        tttrslst3:SetSize(390, 50)
+        tttrslst3:SetSize(390, 75)
         tttrslst3:SetSpacing(5)
 
         local tttrsdh31 = xlib.makeslider{label = 'ttt_soda_shieldup (Def. 10)', repconvar = 'rep_ttt_soda_shieldup', min = 0, max = 100, decimal = 0, parent = tttrslst3}
@@ -110,6 +116,9 @@ if CLIENT then
 
         local tttrsdh32 = xlib.makeslider{label = 'ttt_soda_healup (Def. 10)', repconvar = 'rep_ttt_soda_healup', min = 0, max = 100, decimal = 0, parent = tttrslst3}
         tttrslst3:AddItem(tttrsdh32)
+
+        local tttrsdh33 = xlib.makeslider{label = 'ttt_soda_creditup (Def. 1)', repconvar = 'rep_ttt_soda_creditup', min = 0, max = 100, decimal = 0, parent = tttrslst3}
+        tttrslst3:AddItem(tttrsdh33)
 
         -- add to ULX
         xgui.hookEvent('onProcessModules', nil, tttrspnl.processModules)
