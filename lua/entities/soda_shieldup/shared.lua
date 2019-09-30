@@ -13,7 +13,7 @@ end
 
 -- this function handles effects that don't rely on hooks
 function ENT:ConsumeSoda(ply)
-    ply:IncreaseArmor(GetConVar('ttt_soda_shieldup'):GetInt())
+    ply:GiveArmor(GetConVar('ttt_soda_shieldup'):GetInt())
 end
 
 function ENT:Initialize()
