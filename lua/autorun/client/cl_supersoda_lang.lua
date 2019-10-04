@@ -8,7 +8,7 @@ if CLIENT then
         LANG.AddToLanguage('English', 'ttt_drank_soda_rageup', 'You found the RageUp!™ can! Deal more damage!')
         LANG.AddToLanguage('English', 'ttt_drank_soda_shootup', 'You found the ShootUp!™ can! Shoot Faster!')
         LANG.AddToLanguage('English', 'ttt_drank_soda_jumpup', 'You found the JumpUp!™ can! Jump higher!')
-        LANG.AddToLanguage('English', 'ttt_drank_soda_shieldup', 'You found the ShieldUp!™ can! You received extra armor points!')
+        LANG.AddToLanguage('English', 'ttt_drank_soda_armorup', 'You found the ArmorUp!™ can! You received extra armor points!')
         LANG.AddToLanguage('English', 'ttt_drank_soda_healup', 'You found the HealUp!™ can! You received extra health points!')
         LANG.AddToLanguage('English', 'ttt_drank_soda_creditup', 'You found the creditUp!™ can! You received extra equipment credits!')
     end)

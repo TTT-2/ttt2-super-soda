@@ -3,7 +3,7 @@ CreateConVar('ttt_soda_limit_one_per_player', 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 
 CreateConVar('ttt_soda_speedup', 1.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Set the speed you can get after drinking the SpeedUp! soda. (1.5 = 150%, 1.75 = 175% etc.)')
 CreateConVar('ttt_soda_rageup', 1.30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much damage do you deal after drinking the RageUp! soda (1.20 = 120%, 1.40 = 140% etc.)')
 CreateConVar('ttt_soda_shootup', 1.50, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much much shorter the delay is after ShootUp! soda (1.20 = 120%, 1.40 = 140% etc.)')
-CreateConVar('ttt_soda_shieldup', 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much extra armor points you receive.')
+CreateConVar('ttt_soda_armorup', 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much extra armor points you receive.')
 CreateConVar('ttt_soda_healup', 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much extra armor points you receive.')
 CreateConVar('ttt_soda_creditup', 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much extra equipment credits you receive.')
 
@@ -13,7 +13,7 @@ hook.Add('TTTUlxInitCustomCVar', 'TTTSuperSodaInitRWCVar', function(name)
     ULib.replicatedWritableCvar('ttt_soda_speedup', 'rep_ttt_soda_speedup', GetConVar('ttt_soda_speedup'):GetFloat(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_rageup', 'rep_ttt_soda_rageup', GetConVar('ttt_soda_rageup'):GetFloat(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_shootup', 'rep_ttt_soda_shootup', GetConVar('ttt_soda_shootup'):GetFloat(), true, false, name)
-    ULib.replicatedWritableCvar('ttt_soda_shieldup', 'rep_ttt_soda_shieldup', GetConVar('ttt_soda_shieldup'):GetInt(), true, false, name)
+    ULib.replicatedWritableCvar('ttt_soda_armorup', 'rep_ttt_soda_armorup', GetConVar('ttt_soda_armorup'):GetInt(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_healup', 'rep_ttt_soda_healup', GetConVar('ttt_soda_healup'):GetInt(), true, false, name)
     ULib.replicatedWritableCvar('ttt_soda_creditup', 'rep_ttt_soda_creditup', GetConVar('ttt_soda_creditup'):GetInt(), true, false, name)
 end)
@@ -27,7 +27,7 @@ if SERVER then
         SetGlobalFloat('ttt_soda_speedup', GetConVar('ttt_soda_speedup'):GetFloat())
         SetGlobalFloat('ttt_soda_rageup', GetConVar('ttt_soda_rageup'):GetFloat())
         SetGlobalFloat('ttt_soda_shootup', GetConVar('ttt_soda_shootup'):GetFloat())
-        SetGlobalFloat('ttt_soda_shieldup', GetConVar('ttt_soda_shieldup'):GetInt())
+        SetGlobalFloat('ttt_soda_armorup', GetConVar('ttt_soda_armorup'):GetInt())
         SetGlobalFloat('ttt_soda_healup', GetConVar('ttt_soda_healup'):GetInt())
         SetGlobalFloat('ttt_soda_creditup', GetConVar('ttt_soda_creditup'):GetInt())
     end)
@@ -48,8 +48,8 @@ if SERVER then
     cvars.AddChangeCallback('ttt_soda_shootup', function(cv, old, new)
         SetGlobalFloat('ttt_soda_shootup', tonumber(new))
     end)
-    cvars.AddChangeCallback('ttt_soda_shieldup', function(cv, old, new)
-        SetGlobalFloat('ttt_soda_shieldup', tonumber(new))
+    cvars.AddChangeCallback('ttt_soda_armorup', function(cv, old, new)
+        SetGlobalFloat('ttt_soda_armorup', tonumber(new))
     end)
     cvars.AddChangeCallback('ttt_soda_healup', function(cv, old, new)
         SetGlobalFloat('ttt_soda_healup', tonumber(new))
@@ -111,7 +111,7 @@ if CLIENT then
         tttrslst3:SetSize(390, 75)
         tttrslst3:SetSpacing(5)
 
-        local tttrsdh31 = xlib.makeslider{label = 'ttt_soda_shieldup (Def. 10)', repconvar = 'rep_ttt_soda_shieldup', min = 0, max = 100, decimal = 0, parent = tttrslst3}
+        local tttrsdh31 = xlib.makeslider{label = 'ttt_soda_armorup (Def. 10)', repconvar = 'rep_ttt_soda_armorup', min = 0, max = 100, decimal = 0, parent = tttrslst3}
         tttrslst3:AddItem(tttrsdh31)
 
         local tttrsdh32 = xlib.makeslider{label = 'ttt_soda_healup (Def. 10)', repconvar = 'rep_ttt_soda_healup', min = 0, max = 100, decimal = 0, parent = tttrslst3}

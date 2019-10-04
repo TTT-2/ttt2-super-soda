@@ -8,7 +8,7 @@ if SERVER then
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_jumpup.png');
 
     resource.AddFile('materials/models/props_junk/can_healup');
-    resource.AddFile('materials/models/props_junk/can_shieldup');
+    resource.AddFile('materials/models/props_junk/can_armorup');
     resource.AddFile('materials/models/props_junk/can_creditup');
     resource.AddFile('materials/models/props_junk/can_shootup');
     resource.AddFile('materials/models/props_junk/can_speedup');
