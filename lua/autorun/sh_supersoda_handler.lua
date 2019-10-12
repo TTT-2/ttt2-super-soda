@@ -110,16 +110,23 @@ if SERVER then
 
         if amount == 0 then return end
         
+        local spawns = ents.FindByClass('item_*')
         for i = 1, amount do
             -- research since one item was replaced
-            local spawns = ents.FindByClass('item_*')
 
-            local spwn = spawns[math.random(#spawns)]
+            local index = math.random(#spawns)
+            local spwn = spawns[index]
+            local spwn_name = spwn:GetClass()
             local soda = ents.Create(SUPERSODA.sodas[math.random(#SUPERSODA.sodas)])
 
             soda:SetPos(spwn:GetPos())
             soda:Spawn()
             spwn:Remove()
+            table.remove(spawns, index)
+
+            local newSpwn = ents.Create(spwn_name)
+            newSpwn:SetPos(soda:GetPos() + Vector(20, 20, 0))
+            newSpwn:Spawn()
         end
 
         -- send message about spawned bottles
