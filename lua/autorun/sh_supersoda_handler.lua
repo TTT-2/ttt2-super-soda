@@ -108,7 +108,20 @@ if SERVER then
         -- limit by defined max and found items
         local amount = math.min(#ents.FindByClass('item_*'), GetGlobalInt('ttt_soda_total_spawn_amount'))
 
+        -- make sure more than 0 sodas can be spawned
         if amount == 0 then return end
+
+        -- create a new soda table based on the spawn weights
+        weighted_spawn = {}
+        for _, soda in ipairs(SUPERSODA.sodas) do
+            local weight = GetConVar('ttt_' .. soda .. '_sweight'):GetInt()
+            for i = 1, weight do
+                table.Add(weighted_spawn, {soda})
+            end
+        end
+
+        -- only continue if sodas should be spawned
+        if #weighted_spawn == 0 then return end
         
         local spawns = ents.FindByClass('item_*')
         for i = 1, amount do
@@ -117,7 +130,7 @@ if SERVER then
             local index = math.random(#spawns)
             local spwn = spawns[index]
             local spwn_name = spwn:GetClass()
-            local soda = ents.Create(SUPERSODA.sodas[math.random(#SUPERSODA.sodas)])
+            local soda = ents.Create(weighted_spawn[math.random(#weighted_spawn)])
 
             soda:SetPos(spwn:GetPos())
             soda:Spawn()
