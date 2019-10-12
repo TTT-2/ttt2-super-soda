@@ -1,5 +1,5 @@
 SUPERSODA = {}
-SUPERSODA.sodas = {'soda_speedup', 'soda_rageup', 'soda_shootup', 'soda_armorup', 'soda_healup', 'soda_creditup'}
+SUPERSODA.sodas = {'soda_speedup', 'soda_rageup', 'soda_shootup', 'soda_armorup', 'soda_healup', 'soda_creditup', 'soda_jumpup'}
 
 -- add functions to player object, SHARED
 local plymeta = FindMetaTable('Player')
@@ -22,6 +22,8 @@ end
 
 function plymeta:RemoveSoda(soda_name)
     self:SetSoda(soda_name, false)
+
+    hook.Run("TTT2RemovedSoda", self, soda_name)
 end
 
 function plymeta:SodaAmountDrunk()
