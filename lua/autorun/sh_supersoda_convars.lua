@@ -1,4 +1,4 @@
-CreateConVar('ttt_soda_total_spawn_amount', 6, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Set the amount of sodas that spawn each round.')
+CreateConVar('ttt_soda_total_spawn_amount', 7, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Set the amount of sodas that spawn each round.')
 CreateConVar('ttt_soda_limit_one_per_player', 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Limit the soda usage to one per player.')
 CreateConVar('ttt_soda_speedup', 1.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'Set the speed you can get after drinking the SpeedUp! soda. (1.5 = 150%, 1.75 = 175% etc.)')
 CreateConVar('ttt_soda_rageup', 1.30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 'How much damage do you deal after drinking the RageUp! soda (1.20 = 120%, 1.40 = 140% etc.)')
