@@ -92,7 +92,8 @@ hook.Add("SetupMove", "SodaJump", function(ply, mv)
     ply:DoCustomAnimEvent(PLAYERANIMEVENT_JUMP , -1)
 end )
 
-hook.Add('TTT2RemovedSoda', 'SodaResetJumpHeight', function(ply, soda_name)
+hook.Add('TTT2RemovedSoda', 'ttt2_soda_remove_shootup_jumpup', function(ply, soda_name)
+    if not IsValid(ply) then return end
     if soda_name ~= 'soda_jumpup' then return end
 
     ply:SetJumpPower(160) -- bit more then twice as much

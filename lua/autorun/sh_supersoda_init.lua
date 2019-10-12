@@ -1,6 +1,6 @@
 if SERVER then
     -- make sure the addon is synced to the client (this is somehow needed for the entities, don't ask me why)
-    --resource.AddWorkshop('1815518231')
+    resource.AddWorkshop('1815518231')
 
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_speedup.png');
     resource.AddFile('materials/vgui/ttt/hud_icon_soda_ragedup.png');

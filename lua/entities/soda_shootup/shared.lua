@@ -24,7 +24,6 @@ function ENT:Initialize()
     if IsValid(phys) then phys:Wake() end
 end
 
-
 -- shooting speed modify code by Alf21, THANKS!
 if SERVER then
     util.AddNetworkString('ttt2_supersoda_shootup_speedupdate')
@@ -38,7 +37,6 @@ if SERVER then
             net.WriteBool(false)
             net.WriteEntity(wep)
             net.WriteFloat(wep.Primary.Delay)
-            net.WriteFloat(wep.Delay_old)
             net.Send(wep.Owner)
 
             wep.OnDrop_old = nil
@@ -54,28 +52,21 @@ if SERVER then
             wep.Primary.Delay = delay
             wep.OnDrop_old = wep.OnDrop
 
-            wep.OnDrop = function(self, ...)
-                if IsValid(self) then
-                    if self.OnDrop_old then
-                        DisableWeaponSpeed(self)
-
-                        self.OnDrop_old = nil
-                    end
-
-                    self:OnDrop()
-                end
-            end
-
             net.Start('ttt2_supersoda_shootup_speedupdate')
             net.WriteBool(true)
             net.WriteEntity(wep)
             net.WriteFloat(wep.Primary.Delay)
-            net.WriteFloat(wep.Delay_old)
             net.Send(wep.Owner)
         end
     end
 
-    local function shootingModifier(ply, old, new)
+    function ENT:ConsumeSoda(ply)
+        if not IsValid(ply) then return end
+
+        ApplyWeaponSpeed(ply:GetActiveWeapon())
+    end    
+
+    hook.Add('PlayerSwitchWeapon', 'ttt2_supersoda_shootup_hook', function(ply, old, new)
         if not IsValid(ply) then return end
 
         if ply:HasDrunkSoda('soda_shootup') then
@@ -85,8 +76,20 @@ if SERVER then
         if IsValid(old) then
             DisableWeaponSpeed(old)
         end
-    end
-    hook.Add('PlayerSwitchWeapon', 'ttt2_supersoda_shootup_hook', shootingModifier)
+    end)
+
+    hook.Add('PlayerDroppedWeapon', 'ttt2_infinishoot_handle_weapon_drop', function(ply, wep)
+        if not IsValid(ply) then return end
+
+        DisableWeaponSpeed(wep)
+    end)
+
+    hook.Add('TTT2RemovedSoda', 'ttt2_soda_remove_shootup', function(ply, soda_name)
+        if not IsValid(ply) then return end
+        if soda_name ~= 'soda_shootup' then return end
+    
+        DisableWeaponSpeed(ply:GetActiveWeapon())
+    end)
 end
 
 if CLIENT then
@@ -95,20 +98,5 @@ if CLIENT then
         local wep = net.ReadEntity()
 
         wep.Primary.Delay = net.ReadFloat()
-
-        if apply then
-            wep.OnDrop_old = wep.OnDrop
-
-            wep.OnDrop = function(self, ...)
-                if IsValid(self) then
-                    self.Primary.Delay = net.ReadFloat()
-                    self.OnDrop = self.OnDrop_old
-
-                    self:OnDrop()
-                end
-            end
-        else
-            wep.OnDrop = wep.OnDrop_old
-        end
     end)
 end

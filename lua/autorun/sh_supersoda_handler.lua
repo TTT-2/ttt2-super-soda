@@ -169,7 +169,3 @@ if CLIENT then
         MSTACK:AddMessage(text)
     end)
 end
-
-concommand.Add('debug_sodaversion', function()
-    print('TTT2 - V. 1.0.0')
-end)
