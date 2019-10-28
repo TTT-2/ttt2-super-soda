@@ -8,7 +8,7 @@ ENT.soda_type = 'MULTIUSE'
 util.PrecacheSound('sound/sodacan/opencan.wav')
 
 if CLIENT then
-	language.Add('soda_healup', 'HealUp!™')
+	LANG.AddToLanguage('English', 'soda_healup', 'HealUp!™')
 end
 
 -- this function handles effects that don't rely on hooks

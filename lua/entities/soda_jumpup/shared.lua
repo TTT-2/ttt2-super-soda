@@ -8,7 +8,7 @@ ENT.soda_type = 'SINGLEUSE'
 util.PrecacheSound('sound/sodacan/opencan.wav')
 
 if CLIENT then
-	language.Add('soda_jumpup', 'JumpUp!™')
+	LANG.AddToLanguage('English', 'soda_jumpup', 'JumpUp!™')
 end
 
 function ENT:Initialize()

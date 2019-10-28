@@ -61,9 +61,11 @@ if SERVER then
 
     -- HANDLE SODA PICKUP
     function SUPERSODA:PickupSoda(ply, ent)
+        if not IsValid(ent) then return end
+
         local soda = ent:GetClass()
 
-        if ply:GetPos():Distance(ent:GetPos()) >= 75 then return end -- too far away
+        if ply:GetPos():Distance(ent:GetPos()) >= 100 then return end -- too far away
         if not table.HasValue(SUPERSODA.sodas, soda) then return end -- no valid soda
 
         -- check if alerady drunk
