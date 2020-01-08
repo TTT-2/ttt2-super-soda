@@ -1,8 +1,3 @@
-local key_params = {
-	usekey = Key('+use', 'USE'),
-	walkkey = Key('+walk', 'WALK')
-}
-
 -- handle looking at sodas
 hook.Add('TTTRenderEntityInfo', 'ttt2_supersoda_highlight_sodas', function(data, params)
 	local client = LocalPlayer()
@@ -15,7 +10,7 @@ hook.Add('TTTRenderEntityInfo', 'ttt2_supersoda_highlight_sodas', function(data,
 	params.drawInfo = true
 	params.displayInfo.key = input.GetKeyCode(input.LookupBinding('+use'))
 	params.displayInfo.title.text = LANG.GetTranslation(soda_class)
-	params.displayInfo.subtitle.text = LANG.GetParamTranslation('ttt_pickup_soda', key_params)
+	params.displayInfo.subtitle.text = LANG.GetParamTranslation('ttt_pickup_soda', {usekey = Key('+use', 'USE')})
 
 	params.displayInfo.desc = {
 		{text = LANG.GetTranslation('ttt_pickup_' .. soda_class), color = COLOR_WHITE}
