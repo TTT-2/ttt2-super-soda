@@ -3,6 +3,7 @@ if CLIENT then
 		-- ENGLISH
 		LANG.AddToLanguage("English", "ttt_drank_soda_already_drunk", "You can drink each soda only once.")
 		LANG.AddToLanguage("English", "ttt_drank_soda_limit_reached", "You can drink only one soda!")
+		LANG.AddToLanguage("English", "ttt_drank_soda_cant_pickup", "You can't drink or pickup anything right now.")
 		LANG.AddToLanguage("English", "ttt_drank_soda_unlimted", "Instant effect sodas can be drunk infinite times.")
 		LANG.AddToLanguage("English", "ttt_spawned_soda", "There are {amount} super sodas this round. Pick them up to get some perks!")
 

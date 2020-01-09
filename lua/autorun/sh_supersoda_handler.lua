@@ -41,10 +41,6 @@ end
 
 if SERVER then
 	util.AddNetworkString("ttt2_supersoda_reset")
-	util.AddNetworkString("ttt2_supersoda_drink")
-	util.AddNetworkString("ttt2_supersoda_msg_already_drunk")
-	util.AddNetworkString("ttt2_supersoda_msg_limit_reached")
-	util.AddNetworkString("ttt2_supersoda_msg_spawned")
 
 	-- RESET PLAYER SODA STATE
 	function SUPERSODA:ResetPlayerState(ply)
@@ -55,6 +51,7 @@ if SERVER then
 		net.Start("ttt2_supersoda_reset")
 		net.Send(ply)
 	end
+
 	hook.Add("PlayerSpawn", "ttt2_supersoda_reset_hook", function(ply)
 		SUPERSODA:ResetPlayerState(ply)
 	end)
@@ -68,18 +65,23 @@ if SERVER then
 		if ply:GetPos():Distance(ent:GetPos()) >= 100 then return end -- too far away
 		if not table.HasValue(SUPERSODA.sodas, soda) then return end -- no valid soda
 
+		-- sodas can't be drunk if a player isn't allowed to pick up weapons
+		if not ply:CanPickupWeapon(ent) then
+			LANG.Msg(ply, "ttt_drank_soda_cant_pickup", nil, MSG_MSTACK_PLAIN)
+
+			return -- do not continue
+		end
+
 		-- check if alerady drunk
 		if ent.soda_type == "SINGLEUSE" and ply:HasDrunkSoda(soda) then
-			net.Start("ttt2_supersoda_msg_already_drunk")
-			net.Send(ply)
+			LANG.Msg(ply, "ttt_drank_soda_already_drunk", nil, MSG_MSTACK_PLAIN)
 
 			return -- do not continue
 		end
 
 		-- check if limited
 		if GetGlobalBool("ttt_soda_limit_one_per_player") and ply:SodaAmountDrunk() >= 1 then
-			net.Start("ttt2_supersoda_msg_limit_reached")
-			net.Send(ply)
+			LANG.Msg(ply, "ttt_drank_soda_limit_reached", nil, MSG_MSTACK_PLAIN)
 
 			return -- do not continue
 		end
@@ -96,9 +98,9 @@ if SERVER then
 
 		-- set drank soda on client
 		ply:DrinkSoda(soda)
-		net.Start("ttt2_supersoda_drink")
-		net.WriteString(soda)
-		net.Send(ply)
+
+		-- send message via mstack
+		LANG.Msg(ply, "ttt_drank_" .. soda, nil, MSG_MSTACK_PLAIN)
 	end
 	hook.Add("KeyPress", "ttt2_supersoda_pickup", function(ply, key)
 		if key ~= IN_USE then return end
@@ -147,9 +149,7 @@ if SERVER then
 		-- send message about spawned bottles
 		if amount == 0 then return end
 
-		net.Start("ttt2_supersoda_msg_spawned")
-		net.WriteUInt(amount, 16)
-		net.Send(player.GetAll())
+		LANG.MsgAll("ttt_spawned_soda", {amount = amount}, MSG_MSTACK_PLAIN)
 	end)
 end
 
@@ -162,25 +162,5 @@ if CLIENT then
 		for _,soda in ipairs(SUPERSODA.sodas) do
 			client:RemoveSoda(soda)
 		end
-	end)
-
-	net.Receive("ttt2_supersoda_drink", function()
-		local client = LocalPlayer()
-		local soda = net.ReadString()
-
-		client:DrinkSoda(soda)
-		MSTACK:AddMessage(LANG.GetTranslation("ttt_drank_" .. soda))
-	end)
-
-	net.Receive("ttt2_supersoda_msg_already_drunk", function()
-		MSTACK:AddMessage(LANG.GetTranslation("ttt_drank_soda_already_drunk"))
-	end)
-	net.Receive("ttt2_supersoda_msg_limit_reached", function()
-		MSTACK:AddMessage(LANG.GetTranslation("ttt_drank_soda_limit_reached"))
-	end)
-	net.Receive("ttt2_supersoda_msg_spawned", function()
-		-- store in variable since it sets the text to red otherwise
-		local text = LANG.GetParamTranslation("ttt_spawned_soda", {amount = net.ReadUInt(16)})
-		MSTACK:AddMessage(text)
 	end)
 end
