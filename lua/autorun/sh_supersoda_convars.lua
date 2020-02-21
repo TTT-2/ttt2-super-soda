@@ -90,11 +90,20 @@ if CLIENT then
 		tttrslst1:SetSize(390, 50)
 		tttrslst1:SetSpacing(5)
 
-		local tttrsdh11 = xlib.makeslider{label = "ttt_soda_total_spawn_amount (Def. 5)", repconvar = "rep_ttt_soda_total_spawn_amount", min = 0, max = 25, decimal = 0, parent = tttrslst1}
-		tttrslst1:AddItem(tttrsdh11)
+		tttrslst1:AddItem(xlib.makeslider{
+			label = "ttt_soda_total_spawn_amount (Def. 5)",
+			repconvar = "rep_ttt_soda_total_spawn_amount",
+			min = 0,
+			max = 25,
+			decimal = 0,
+			parent = tttrslst1
+		})
 
-		local tttrsdh12 = xlib.makecheckbox{label = "ttt_soda_limit_one_per_player (Def. 0)", repconvar = "rep_ttt_soda_limit_one_per_player", parent = tttrslst1}
-		tttrslst1:AddItem(tttrsdh12)
+		tttrslst1:AddItem(xlib.makecheckbox{
+			label = "ttt_soda_limit_one_per_player (Def. 0)",
+			repconvar = "rep_ttt_soda_limit_one_per_player",
+			parent = tttrslst1
+		})
 
 
 		-- Multipliers 
@@ -108,14 +117,32 @@ if CLIENT then
 		tttrslst2:SetSize(390, 75)
 		tttrslst2:SetSpacing(5)
 
-		local tttrsdh21 = xlib.makeslider{label = "ttt_soda_speedup (Def. 1.75)", repconvar = "rep_ttt_soda_speedup", min = 0, max = 3.5, decimal = 2, parent = tttrslst2}
-		tttrslst2:AddItem(tttrsdh21)
+		tttrslst2:AddItem( xlib.makeslider{
+			label = "ttt_soda_speedup (Def. 1.75)",
+			repconvar = "rep_ttt_soda_speedup",
+			min = 0,
+			max = 3.5,
+			decimal = 2,
+			parent = tttrslst2
+		})
 
-		local tttrsdh22 = xlib.makeslider{label = "ttt_soda_rageup (Def. 1.30)", repconvar = "rep_ttt_soda_rageup", min = 0, max = 3.5, decimal = 2, parent = tttrslst2}
-		tttrslst2:AddItem(tttrsdh22)
+		tttrslst2:AddItem(xlib.makeslider{
+			label = "ttt_soda_rageup (Def. 1.30)",
+			repconvar = "rep_ttt_soda_rageup",
+			min = 0,
+			max = 3.5,
+			decimal = 2,
+			parent = tttrslst2
+		})
 
-		local tttrsdh23 = xlib.makeslider{label = "ttt_soda_shootup (Def. 1.50)", repconvar = "rep_ttt_soda_shootup", min = 0, max = 3.5, decimal = 2, parent = tttrslst2}
-		tttrslst2:AddItem(tttrsdh23)
+		tttrslst2:AddItem(xlib.makeslider{
+			label = "ttt_soda_shootup (Def. 1.50)",
+			repconvar = "rep_ttt_soda_shootup",
+			min = 0,
+			max = 3.5,
+			decimal = 2,
+			parent = tttrslst2
+		})
 
 
 		-- Instant Effects
@@ -129,14 +156,32 @@ if CLIENT then
 		tttrslst3:SetSize(390, 75)
 		tttrslst3:SetSpacing(5)
 
-		local tttrsdh31 = xlib.makeslider{label = "ttt_soda_armorup (Def. 10)", repconvar = "rep_ttt_soda_armorup", min = 0, max = 100, decimal = 0, parent = tttrslst3}
-		tttrslst3:AddItem(tttrsdh31)
+		tttrslst3:AddItem(xlib.makeslider{
+			label = "ttt_soda_armorup (Def. 10)",
+			repconvar = "rep_ttt_soda_armorup",
+			min = 0,
+			max = 100,
+			decimal = 0,
+			parent = tttrslst3
+		})
 
-		local tttrsdh32 = xlib.makeslider{label = "ttt_soda_healup (Def. 10)", repconvar = "rep_ttt_soda_healup", min = 0, max = 100, decimal = 0, parent = tttrslst3}
-		tttrslst3:AddItem(tttrsdh32)
+		tttrslst3:AddItem(xlib.makeslider{
+			label = "ttt_soda_healup (Def. 10)",
+			repconvar = "rep_ttt_soda_healup",
+			min = 0,
+			max = 100,
+			decimal = 0,
+			parent = tttrslst3
+		})
 
-		local tttrsdh33 = xlib.makeslider{label = "ttt_soda_creditup (Def. 1)", repconvar = "rep_ttt_soda_creditup", min = 0, max = 100, decimal = 0, parent = tttrslst3}
-		tttrslst3:AddItem(tttrsdh33)
+		tttrslst3:AddItem(xlib.makeslider{
+			label = "ttt_soda_creditup (Def. 1)",
+			repconvar = "rep_ttt_soda_creditup",
+			min = 0,
+			max = 100,
+			decimal = 0,
+			parent = tttrslst3
+		})
 
 
 		-- Spawn Weights
@@ -150,26 +195,68 @@ if CLIENT then
 		tttrslst4:SetSize(390, 175)
 		tttrslst4:SetSpacing(5)
 
-		local tttrsdh41 = xlib.makeslider{label = "ttt_soda_speedup_sweight (Def. 1)", repconvar = "rep_ttt_soda_speedup_sweight", min = 0, max = 10, decimal = 0, parent = tttrslst4}
-		tttrslst4:AddItem(tttrsdh41)
+		tttrslst4:AddItem(xlib.makeslider{
+			label = "ttt_soda_speedup_sweight (Def. 1)",
+			repconvar = "rep_ttt_soda_speedup_sweight",
+			min = 0,
+			max = 10,
+			decimal = 0,
+			parent = tttrslst4
+		})
 
-		local tttrsdh42 = xlib.makeslider{label = "ttt_soda_rageup_sweight (Def. 1)", repconvar = "rep_ttt_soda_rageup_sweight", min = 0, max = 10, decimal = 0, parent = tttrslst4}
-		tttrslst4:AddItem(tttrsdh42)
+		tttrslst4:AddItem(xlib.makeslider{
+			label = "ttt_soda_rageup_sweight (Def. 1)",
+			repconvar = "rep_ttt_soda_rageup_sweight",
+			min = 0,
+			max = 10,
+			decimal = 0,
+			parent = tttrslst4
+		})
 
-		local tttrsdh43 = xlib.makeslider{label = "ttt_soda_shootup_sweight (Def. 1)", repconvar = "rep_ttt_soda_shootup_sweight", min = 0, max = 10, decimal = 0, parent = tttrslst4}
-		tttrslst4:AddItem(tttrsdh43)
+		tttrslst4:AddItem(xlib.makeslider{
+			label = "ttt_soda_shootup_sweight (Def. 1)",
+			repconvar = "rep_ttt_soda_shootup_sweight",
+			min = 0,
+			max = 10,
+			decimal = 0,
+			parent = tttrslst4
+		})
 
-		local tttrsdh44 = xlib.makeslider{label = "ttt_soda_jumpup_sweight (Def. 1)", repconvar = "rep_ttt_soda_jumpup_sweight", min = 0, max = 10, decimal = 0, parent = tttrslst4}
-		tttrslst4:AddItem(tttrsdh44)
+		tttrslst4:AddItem(xlib.makeslider{
+			label = "ttt_soda_jumpup_sweight (Def. 1)",
+			repconvar = "rep_ttt_soda_jumpup_sweight",
+			min = 0,
+			max = 10,
+			decimal = 0,
+			parent = tttrslst4
+		})
 
-		local tttrsdh45 = xlib.makeslider{label = "ttt_soda_armorup_sweight (Def. 1)", repconvar = "rep_ttt_soda_armorup_sweight", min = 0, max = 10, decimal = 0, parent = tttrslst4}
-		tttrslst4:AddItem(tttrsdh45)
+		tttrslst4:AddItem(xlib.makeslider{
+			label = "ttt_soda_armorup_sweight (Def. 1)",
+			repconvar = "rep_ttt_soda_armorup_sweight",
+			min = 0,
+			max = 10,
+			decimal = 0,
+			parent = tttrslst4
+		})
 
-		local tttrsdh46 = xlib.makeslider{label = "ttt_soda_healup_sweight (Def. 1)", repconvar = "rep_ttt_soda_healup_sweight", min = 0, max = 10, decimal = 0, parent = tttrslst4}
-		tttrslst4:AddItem(tttrsdh46)
+		tttrslst4:AddItem(xlib.makeslider{
+			label = "ttt_soda_healup_sweight (Def. 1)",
+			repconvar = "rep_ttt_soda_healup_sweight",
+			min = 0,
+			max = 10,
+			decimal = 0,
+			parent = tttrslst4
+		})
 
-		local tttrsdh47 = xlib.makeslider{label = "ttt_soda_creditup_sweight (Def. 1)", repconvar = "rep_ttt_soda_creditup_sweight", min = 0, max = 10, decimal = 0, parent = tttrslst4}
-		tttrslst4:AddItem(tttrsdh47)
+		tttrslst4:AddItem(xlib.makeslider{
+			label = "ttt_soda_creditup_sweight (Def. 1)",
+			repconvar = "rep_ttt_soda_creditup_sweight",
+			min = 0,
+			max = 10,
+			decimal = 0,
+			parent = tttrslst4
+		})
 
 
 		-- add to ULX

@@ -1,38 +1,34 @@
 AddCSLuaFile()
 
-ENT.Base      = 'base_anim'
+ENT.Base      = "base_anim"
 ENT.Spawnable = true
 
-ENT.soda_type = 'SINGLEUSE'
+ENT.soda_type = "SINGLEUSE"
 
-util.PrecacheSound('sound/sodacan/opencan.wav')
-
-if CLIENT then
-	LANG.AddToLanguage('English', 'soda_jumpup', 'JumpUp!™')
-end
+util.PrecacheSound("sound/sodacan/opencan.wav")
 
 function ENT:Initialize()
-    self:SetModel('models/props_junk/PopCan01a.mdl')
-    self:SetMaterial('models/props_junk/can_jumpup', true)
+	self:SetModel("models/props_junk/PopCan01a.mdl")
+	self:SetMaterial("models/props_junk/can_jumpup", true)
 
-    self:SetSolid(SOLID_VPHYSICS)
-    self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	self:SetSolid(SOLID_VPHYSICS)
+	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
-    if SERVER then self:PhysicsInit(SOLID_VPHYSICS) end
+	if SERVER then self:PhysicsInit(SOLID_VPHYSICS) end
 
-    local phys = self:GetPhysicsObject()
-    if IsValid(phys) then phys:Wake() end
+	local phys = self:GetPhysicsObject()
+	if IsValid(phys) then phys:Wake() end
 end
 
 function ENT:ConsumeSoda(ply)
-    --only modify jump height when the player doesn't have blue bull
-    if ply:HasEquipmentItem("item_ttt_blue_bull") then
-        ply:SetNWInt("MaxJumpLevel", ply:GetNWInt("MaxJumpLevel", 2) + 1)
-    else
-        ply:SetNWInt("MaxJumpLevel", 1)
-        ply:SetNWInt("JumpLevel", 0)
-        ply:SetJumpPower(200) -- jump a little bit higher
-    end
+	--only modify jump height when the player doesn"t have blue bull
+	if ply:HasEquipmentItem("item_ttt_blue_bull") then
+		ply:SetNWInt("MaxJumpLevel", ply:GetNWInt("MaxJumpLevel", 2) + 1)
+	else
+		ply:SetNWInt("MaxJumpLevel", 1)
+		ply:SetNWInt("JumpLevel", 0)
+		ply:SetJumpPower(200) -- jump a little bit higher
+	end
 end
 
 local function GetMoveVector(mv)
@@ -62,39 +58,39 @@ local function GetMoveVector(mv)
 end
 
 hook.Add("SetupMove", "SodaJump", function(ply, mv)
-    if not IsValid(ply) or not ply:IsPlayer() then return end
-    if not ply:HasDrunkSoda('soda_jumpup') or ply:HasEquipmentItem("item_ttt_blue_bull") then return end
+	if not IsValid(ply) or not ply:IsPlayer() then return end
+	if not ply:HasDrunkSoda("soda_jumpup") or ply:HasEquipmentItem("item_ttt_blue_bull") then return end
 
-    -- Let the engine handle movement from the ground
-    if ply:OnGround() then
-        ply:SetNWInt("JumpLevel", 0)
+	-- Let the engine handle movement from the ground
+	if ply:OnGround() then
+		ply:SetNWInt("JumpLevel", 0)
 
-        return
-    end
+		return
+	end
 
-    -- Don't do anything if not jumping
-    if not mv:KeyPressed(IN_JUMP) then
-        return
-    end
+	-- Don't do anything if not jumping
+	if not mv:KeyPressed(IN_JUMP) then
+		return
+	end
 
-    ply:SetNWInt("JumpLevel", ply:GetNWInt("JumpLevel") + 1)
+	ply:SetNWInt("JumpLevel", ply:GetNWInt("JumpLevel") + 1)
 
-    if ply:GetNWInt("JumpLevel") > 1 then
-        return
-    end
+	if ply:GetNWInt("JumpLevel") > 1 then
+		return
+	end
 
-    local vel = GetMoveVector(mv)
+	local vel = GetMoveVector(mv)
 
-    vel.z = ply:GetJumpPower()
+	vel.z = ply:GetJumpPower()
 
-    mv:SetVelocity(vel)
+	mv:SetVelocity(vel)
 
-    ply:DoCustomAnimEvent(PLAYERANIMEVENT_JUMP , -1)
+	ply:DoCustomAnimEvent(PLAYERANIMEVENT_JUMP , -1)
 end )
 
-hook.Add('TTT2RemovedSoda', 'ttt2_soda_remove_shootup_jumpup', function(ply, soda_name)
-    if not IsValid(ply) then return end
-    if soda_name ~= 'soda_jumpup' then return end
+hook.Add("TTT2RemovedSoda", "ttt2_soda_remove_shootup_jumpup", function(ply, soda_name)
+	if not IsValid(ply) then return end
+	if soda_name ~= "soda_jumpup" then return end
 
-    ply:SetJumpPower(160) -- bit more then twice as much
+	ply:SetJumpPower(160) -- bit more then twice as much
 end)

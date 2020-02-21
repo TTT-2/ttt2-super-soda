@@ -38,4 +38,13 @@ hook.Add("TTT2AddChange", "TTT2_role_supersoda_changelog", function()
 			<li>Fixed a bug of the shootup soda in combination with other wepaon modifying perks</li>
 		</ul>
 	]], os.time({year = 2019, month = 10, day = 13}))
+
+	AddChange("TTT2 SuperSoda - v1.3", [[
+		<ul>
+			<li>Added targetID support</li>
+			<li>Super sodas now respect the <i>PlayerCanPickupWeapon</i> hook</li>
+			<li>Switched to new language system</li>
+			<li>Added german translation</li>
+		</ul>
+	]], os.time({year = 2020, month = 02, day = 21}))
 end)

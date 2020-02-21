@@ -17,23 +17,23 @@ hook.Add("TTTRenderEntityInfo", "ttt2_supersoda_highlight_sodas", function(tData
 	tData:SetOutlineColor(client:GetRoleColor())
 
 	tData:SetTitle(LANG.GetTranslation(soda_class))
-	tData:SetSubtitle(LANG.GetParamTranslation("ttt_pickup_soda", {usekey = Key("+use", "USE")}, true))
+	tData:SetSubtitle(LANG.GetParamTranslation("ttt_pickup_soda", {usekey = Key("+use", "USE")}))
 	tData:SetKeyBinding("+use")
 	tData:AddDescriptionLine(LANG.GetTranslation("ttt_pickup_" .. soda_class))
 
 	-- add extra information
-	if ent.soda_type == "SINGLEUSE" and client:HasDrunkSoda(soda_class) then
+	if GetGlobalBool("ttt_soda_limit_one_per_player") and client:SodaAmountDrunk() >= 1 then
 		tData:AddDescriptionLine(
-			LANG.GetTranslation("ttt_drank_soda_already_drunk"),
+			LANG.GetTranslation("ttt_drank_soda_limit_reached"),
 			COLOR_ORANGE
 		)
 
 		return
 	end
 
-	if GetGlobalBool("ttt_soda_limit_one_per_player") and client:SodaAmountDrunk() >= 1 then
+	if ent.soda_type == "SINGLEUSE" and client:HasDrunkSoda(soda_class) then
 		tData:AddDescriptionLine(
-			LANG.GetTranslation("ttt_drank_soda_limit_reached"),
+			LANG.GetTranslation("ttt_drank_soda_already_drunk"),
 			COLOR_ORANGE
 		)
 

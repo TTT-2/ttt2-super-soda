@@ -3,6 +3,7 @@ SUPERSODA.sodas = {"soda_speedup", "soda_rageup", "soda_shootup", "soda_armorup"
 
 -- add functions to player object, SHARED
 local plymeta = FindMetaTable("Player")
+
 function plymeta:HasDrunkSoda(soda_name)
 	if not self.drankSoda then return false end
 
@@ -40,6 +41,7 @@ end
 
 
 if SERVER then
+	util.AddNetworkString("ttt2_supersoda_drink")
 	util.AddNetworkString("ttt2_supersoda_reset")
 
 	-- RESET PLAYER SODA STATE
@@ -96,8 +98,11 @@ if SERVER then
 		ent:Remove()
 		STATUS:AddStatus(ply, soda)
 
-		-- set drank soda on client
+		-- set drank soda on server and client
 		ply:DrinkSoda(soda)
+		net.Start("ttt2_supersoda_drink")
+		net.WriteString(soda)
+		net.Send(ply)
 
 		-- send message via mstack
 		LANG.Msg(ply, "ttt_drank_" .. soda, nil, MSG_MSTACK_PLAIN)
@@ -154,10 +159,18 @@ if SERVER then
 end
 
 if CLIENT then
+	net.Receive("ttt2_supersoda_drink", function()
+		local client = LocalPlayer()
+
+		if not IsValid(client) then return end
+
+		client:DrinkSoda(net.ReadString())
+	end)
+
 	net.Receive("ttt2_supersoda_reset", function()
 		local client = LocalPlayer()
 
-		if not client or not IsValid(client) then return end
+		if not IsValid(client) then return end
 
 		for _,soda in ipairs(SUPERSODA.sodas) do
 			client:RemoveSoda(soda)
