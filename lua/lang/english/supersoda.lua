@@ -20,7 +20,7 @@ L["ttt_drank_soda_shootup"] = "You found the ShootUp!™ can! Shoot Faster!"
 L["ttt_drank_soda_jumpup"] = "You found the JumpUp!™ can! You can now jump twice!"
 L["ttt_drank_soda_armorup"] = "You found the ArmorUp!™ can! You received extra armor points!"
 L["ttt_drank_soda_healup"] = "You found the HealUp!™ can! You received extra health points!"
-L["ttt_drank_soda_creditup"] = "You found the creditUp!™ can! You received extra equipment credits!"
+L["ttt_drank_soda_creditup"] = "You found the CreditUp!™ can! You received extra equipment credits!"
 
 L["ttt_pickup_soda_speedup"] = "You will move faster after drinking this soda"
 L["ttt_pickup_soda_rageup"] = "You will deal more damage after drinking this soda"
