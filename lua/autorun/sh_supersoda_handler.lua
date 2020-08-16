@@ -68,7 +68,7 @@ if SERVER then
 		if not table.HasValue(SUPERSODA.sodas, soda) then return end -- no valid soda
 
 		-- sodas can't be drunk if a player isn't allowed to pick up weapons
-		if not ply:CanPickupWeapon(ent) then
+		if not ply:CanPickupWeapon(ent, true) then
 			LANG.Msg(ply, "ttt_drank_soda_cant_pickup", nil, MSG_MSTACK_PLAIN)
 
 			return -- do not continue
