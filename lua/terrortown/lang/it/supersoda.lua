@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference("italiano")
+L = LANG.GetLanguageTableReference("it")
 
 L["ttt_drank_soda_already_drunk"] = "Puoi bere ogni soda solo una volta."
 L["ttt_drank_soda_limit_reached"] = "Puoi bere solo una soda!"
