@@ -31,3 +31,8 @@ L["ttt_pickup_soda_healup"] = "You receive extra health points by drinking this 
 L["ttt_pickup_soda_creditup"] = "You receive extra equipment credits by drinking this soda [INSTANT]"
 
 L["ttt_pickup_soda"] = "Press [{usekey}] to drink soda"
+
+L["soda_jumpup_desc"] = "You feel like a bunny and are able to double-jump!"
+L["soda_rageup_desc"] = "Somehow this soda influences the damage of your weapon."
+L["soda_shootup_desc"] = "Somehow this soda influences the firing speed of your weapon."
+L["soda_speedup_desc"] = "The coffeine in this soda makes you run much faster!"

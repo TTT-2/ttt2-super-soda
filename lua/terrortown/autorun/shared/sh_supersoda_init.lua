@@ -19,22 +19,30 @@ if SERVER then
 end
 
 if CLIENT then
-	hook.Add("Initialize", "supersoda_init_icon", function()
+	hook.Add("TTT2FinishedLoading", "supersoda_init_icon", function()
 		STATUS:RegisterStatus("soda_speedup", {
 			hud = Material("vgui/ttt/hud_icon_soda_speedup.png"),
-			type = "good"
+			type = "good",
+			name = "soda_speedup",
+			sidebarDescription = "soda_speedup_desc"
 		})
 		STATUS:RegisterStatus("soda_rageup", {
 			hud = Material("vgui/ttt/hud_icon_soda_rageup.png"),
-			type = "good"
+			type = "good",
+			name = "soda_rageup",
+			sidebarDescription = "soda_rageup_desc"
 		})
 		STATUS:RegisterStatus("soda_shootup", {
 			hud = Material("vgui/ttt/hud_icon_soda_shootup.png"),
-			type = "good"
+			type = "good",
+			name = "soda_shootup",
+			sidebarDescription = "soda_shootup_desc"
 		})
 		STATUS:RegisterStatus("soda_jumpup", {
 			hud = Material("vgui/ttt/hud_icon_soda_jumpup.png"),
-			type = "good"
+			type = "good",
+			name = "soda_jumpup",
+			sidebarDescription = "soda_jumpup_desc"
 		})
 	end)
 end
