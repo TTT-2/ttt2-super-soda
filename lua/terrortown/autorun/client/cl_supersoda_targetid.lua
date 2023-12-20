@@ -22,7 +22,7 @@ hook.Add("TTTRenderEntityInfo", "ttt2_supersoda_highlight_sodas", function(tData
 	tData:AddDescriptionLine(LANG.GetTranslation("ttt_pickup_" .. soda_class))
 
 	-- add extra information
-	if GetGlobalBool("ttt_soda_limit_one_per_player") and client:SodaAmountDrunk() >= 1 then
+	if GetConVar("ttt_soda_limit_one_per_player"):GetBool() and client:SodaAmountDrunk() >= 1 then
 		tData:AddDescriptionLine(
 			LANG.GetTranslation("ttt_drank_soda_limit_reached"),
 			COLOR_ORANGE

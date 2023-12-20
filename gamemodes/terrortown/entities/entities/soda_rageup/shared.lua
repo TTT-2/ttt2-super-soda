@@ -31,5 +31,5 @@ hook.Add("EntityTakeDamage", "ttt2_supersoda_rageup", function(target, dmginfo)
 	if not IsValid(attacker) or not attacker:IsPlayer() then return end
 	if not attacker:HasDrunkSoda("soda_rageup") then return end
 
-	dmginfo:SetDamage(dmginfo:GetDamage() * GetGlobalFloat("ttt_soda_rageup"))
+	dmginfo:SetDamage(dmginfo:GetDamage() * GetConVar("ttt_soda_rageup"):GetFloat())
 end)

@@ -28,5 +28,5 @@ hook.Add("TTTPlayerSpeedModifier", "ttt2_supersoda_speedup" , function(ply, _, _
 	if not IsValid(ply) or not ply:IsPlayer() then return end
 	if not ply:HasDrunkSoda("soda_speedup") then return end
 
-	noLag[1] = noLag[1] * GetGlobalFloat("ttt_soda_speedup")
+	noLag[1] = noLag[1] * GetConVar("ttt_soda_speedup"):GetFloat()
 end)

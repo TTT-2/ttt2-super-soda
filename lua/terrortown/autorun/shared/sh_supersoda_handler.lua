@@ -82,7 +82,7 @@ if SERVER then
 		end
 
 		-- check if limited
-		if GetGlobalBool("ttt_soda_limit_one_per_player") and ply:SodaAmountDrunk() >= 1 then
+		if GetConVar("ttt_soda_limit_one_per_player"):GetBool() and ply:SodaAmountDrunk() >= 1 then
 			LANG.Msg(ply, "ttt_drank_soda_limit_reached", nil, MSG_MSTACK_PLAIN)
 
 			return -- do not continue
@@ -115,7 +115,7 @@ if SERVER then
 
 	hook.Add("TTTBeginRound", "ttt2_supersoda_spawn" , function()
 		-- limit by defined max and found items
-		local amount = math.min(#ents.FindByClass("item_*"), GetGlobalInt("ttt_soda_total_spawn_amount"))
+		local amount = math.min(#ents.FindByClass("item_*"), GetConVar("ttt_soda_total_spawn_amount"):GetInt())
 
 		-- make sure more than 0 sodas can be spawned
 		if amount == 0 then return end
