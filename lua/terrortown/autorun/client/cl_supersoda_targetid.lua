@@ -16,7 +16,7 @@ hook.Add("TTTRenderEntityInfo", "ttt2_supersoda_highlight_sodas", function(tData
 	tData:EnableOutline()
 	tData:SetOutlineColor(client:GetRoleColor())
 
-	tData:SetTitle(LANG.GetTranslation(soda_class))
+	tData:SetTitle(ent.PrintName)
 	tData:SetSubtitle(LANG.GetParamTranslation("ttt_pickup_soda", {usekey = Key("+use", "USE")}))
 	tData:SetKeyBinding("+use")
 	tData:AddDescriptionLine(LANG.GetTranslation("ttt_pickup_" .. soda_class))

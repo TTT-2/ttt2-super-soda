@@ -1,6 +1,10 @@
-AddCSLuaFile()
+if SERVER then
+	AddCSLuaFile()
+else
+	ENT.PrintName = "soda_healup"
+end
 
-ENT.Base      = "base_anim"
+ENT.Base = "base_anim"
 ENT.Spawnable = true
 
 ENT.soda_type = "MULTIUSE"
