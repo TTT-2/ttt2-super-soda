@@ -29,7 +29,7 @@ if SERVER then
 	util.AddNetworkString("ttt2_supersoda_shootup_speedupdate")
 
 	local function DisableWeaponSpeed(wep)
-		if IsValid(wep) and wep.OnDrop_old then
+		if IsValid(wep) and wep.OnDrop_old and wep.Primary then
 			wep.Primary.Delay = wep.Delay_old
 			wep.OnDrop = wep.OnDrop_old
 
@@ -44,6 +44,8 @@ if SERVER then
 	end
 
 	local function ApplyWeaponSpeed(wep)
+		if not IsValid(wep) or not wep.Primary then return end
+
 		if (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) then
 			if not wep.Primary.Delay then
 				wep.Primary.Delay = 0.15
@@ -97,7 +99,10 @@ end
 if CLIENT then
 	net.Receive("ttt2_supersoda_shootup_speedupdate", function()
 		local wep = net.ReadEntity()
+		local delay = net.ReadFloat()
 
-		wep.Primary.Delay = net.ReadFloat()
+		if not IsValid(wep) or not wep.Primary then return end
+
+		wep.Primary.Delay = delay
 	end)
 end
